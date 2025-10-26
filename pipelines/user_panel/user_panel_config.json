@@ -1,0 +1,31 @@
+{
+  "ppltx_user_panel_etl": {
+    "tasks": {
+      "init_user_panel": {
+        "dataset_src": "fp_gaming_panels",
+        "table_src": "daily_user_panel",
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "user_panel",
+        "description": "Initialize User Panel table with aggregated lifetime stats per user",
+        "partition_att": "install_dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "user_panel",
+        "description": "Generic delete operation before reload",
+        "partition_att": "install_dt",
+        "isEnable": true
+      },
+      "load_user_panel": {
+        "dataset_src": "fp_gaming_panels",
+        "table_src": "daily_user_panel",
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "user_panel",
+        "description": "Load daily incremental data into User Panel table",
+        "partition_att": "install_dt",
+        "isEnable": true
+      }
+    }
+  }
+}

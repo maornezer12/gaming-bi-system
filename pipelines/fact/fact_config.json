@@ -1,0 +1,31 @@
+{
+  "ppltx_fact_etl": {
+    "tasks": {
+      "init_fact": {
+        "dataset_src": "project_game",
+        "table_src": "playpltx_fact",
+        "dataset_dst": "fp_gaming_raw_data",
+        "table_dst": "fact",
+        "description": "Initialize raw FACT table copy from source dataset",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_raw_data",
+        "table_dst": "fact",
+        "description": "Delete the recent data from FACT table to avoid duplication before reload",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "load_fact": {
+        "dataset_src": "project_game",
+        "table_src": "playpltx_fact",
+        "dataset_dst": "fp_gaming_raw_data",
+        "table_dst": "fact",
+        "description": "Load daily incremental data into FACT table",
+        "partition_att": "dt",
+        "isEnable": true
+      }
+    }
+  }
+}

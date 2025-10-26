@@ -3,6 +3,7 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+temp/
 
 # OS
 .DS_Store

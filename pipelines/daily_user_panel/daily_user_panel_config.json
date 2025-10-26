@@ -1,0 +1,31 @@
+{
+  "ppltx_panel_etl": {
+    "tasks": {
+      "init_daily_user_panel": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "daily_user_panel",
+        "description": "Daily aggregated KPIs for every active user",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "daily_user_panel",
+        "description": "Delete the recent data from PANEL table to avoid duplication before reload",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "load_daily_user_panel": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_panels",
+        "table_dst": "daily_user_panel",
+        "description": "Load daily incremental data into Panel table",
+        "partition_att": "dt",
+        "isEnable": true
+      }
+    }
+  }
+}

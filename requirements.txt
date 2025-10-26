@@ -1,0 +1,9 @@
+google-cloud-bigquery
+
+pandas~=2.2.3
+
+
+# slack_sdk
+# python-dotenv
+
+protobuf~=6.31.0
