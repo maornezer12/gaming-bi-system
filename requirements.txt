@@ -1,9 +1,7 @@
-google-cloud-bigquery
+google-cloud-bigquery>=3.0.0
+pandas>=2.2.3
+protobuf>=6.31.0
 
-pandas~=2.2.3
-
-
+# Optional dependencies (uncomment if needed)
 # slack_sdk
 # python-dotenv
-
-protobuf~=6.31.0
