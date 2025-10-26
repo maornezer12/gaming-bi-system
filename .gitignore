@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# PyCharm / IDE
+.idea/
+
+# Credentials / Local config
+*.json.secret
+*.key
+*.pem
+*.p12
+
+# BigQuery temp
+*.log
+
+# Documents we don't want in repo
+*.doc
+*.docx
+*.pdf
