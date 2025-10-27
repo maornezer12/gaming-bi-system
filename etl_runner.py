@@ -8,10 +8,10 @@ Executes any ETL process (FACT, PANEL, USER PANEL, etc.)
 based on configuration files.
 
 Each ETL process is defined in:
-  - config/<etl_name>_config.json  → defines tasks and parameters
+  - config/<job_name>_config.json  → defines tasks and parameters
   - config/action_config.json      → defines task order per action (init/daily/delete)
 
-The runner dynamically replaces {etl_name} in SQL templates
+The runner dynamically replaces {job_name} in SQL templates
 and executes queries stored in /queries.
 
 
@@ -20,28 +20,27 @@ Run Commands
 
 --- fact_etl ---
 
-python etl_runner.py ppltx-m--tutorial-dev --etl-name fact --etl-action init --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name fact --etl-action delete --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name fact --etl-action daily --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action init --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action delete --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action daily --dry-run
 
 --- daily_user_panel_etl ---
 
-python etl_runner.py ppltx-m--tutorial-dev --etl-name daily_user_panel --etl-action init --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name daily_user_panel --etl-action delete --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name daily_user_panel --etl-action daily --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name daily_user_panel --job-action init --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name daily_user_panel --job-action delete --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name daily_user_panel --job-action daily --dry-run
 
 --- user_panel_etl ---
 
-python etl_runner.py ppltx-m--tutorial-dev --etl-name user_panel --etl-action init --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name user_panel --etl-action delete --dry-run
-python etl_runner.py ppltx-m--tutorial-dev --etl-name user_panel --etl-action daily --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job-name user_panel --job-action init --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job_name user_panel --job-action delete --dry-run
+python etl_runner.py ppltx-m--tutorial-dev --job_name user_panel --job-action daily --dry-run
 
 """
 
 from pathlib import Path
 import os, sys, uuid, platform, argparse
 from datetime import datetime, timedelta, date
-from winreg import error
 
 from google.cloud import bigquery
 import pandas as pd
@@ -50,16 +49,16 @@ from utilities.my_etl_files import (readJsonFile, ensureDirectory, writeFile, re
 # --- setup paths ---
 home = Path("C:/") if os.name == 'nt' else Path(os.path.expanduser("~"))    # C:\
 repo_root = Path(__file__).resolve().parent                                 # C:\ gaming-bi-system
-logs_path = repo_root / "temp" / "logs"                                     # C:\gaming-bi-system\temp\logs
-error_path = repo_root / "temp" / "errors"                               # C:\gaming-bi-system\temp\errors
+logs_path = repo_root / "temp" / "pipelines"  / "logs"                                    # C:\gaming-bi-system\temp\logs
+error_path = repo_root / "temp" / "pipelines" / "errors"                               # C:\gaming-bi-system\temp\errors
 # C:\gaming-bi-system\temp\logs
 ensureDirectory(logs_path)
 
 # --- CLI ---
 parser = argparse.ArgumentParser()
 parser.add_argument("project_id", choices=["ppltx-m--tutorial-dev", "my-bi-project-ppltx"], default="ppltx-m--tutorial-dev")
-parser.add_argument("--etl-action", choices=["init", "daily", "delete"], required=True)
-parser.add_argument("--etl-name", required=True)
+parser.add_argument("--job_action", choices=["init", "daily", "delete"], required=True)
+parser.add_argument("--job_name", required=True)
 parser.add_argument("--dry-run", action="store_true")
 parser.add_argument("--days-back", type=int, default=0)
 flags = parser.parse_args()
@@ -102,14 +101,14 @@ tasks_config = readJsonFile(repo_root / f"pipelines/{etl_name}/{etl_name}_config
 action_config = readJsonFile(repo_root / "pipelines" / "action_config.json")
 
 selected_tasks = action_config.get(etl_action, [])
-selected_tasks = [task.replace("{etl_name}", etl_name) for task in selected_tasks]
+selected_tasks = [task.replace("{job_name}", etl_name) for task in selected_tasks]
 
 if not action_config:
     header(f"Could not load action_config.json at: {repo_root / "pipelines" / "action_config.json"}")
     sys.exit(1)
 
 selected_tasks = action_config.get(etl_action, [])
-selected_tasks = [task.replace("{etl_name}", etl_name) for task in selected_tasks]
+selected_tasks = [task.replace("{job_name}", etl_name) for task in selected_tasks]
 
 if not selected_tasks:
     header(f"No tasks found for action: {etl_action} in action_config.json")

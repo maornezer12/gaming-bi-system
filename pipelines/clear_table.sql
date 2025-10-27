@@ -1,5 +1,5 @@
 /*
- Delete data from {etl_name} table by date
+ Delete data from {job_name} table by date
  run_time: {run_time}
 */
 

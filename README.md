@@ -1,8 +1,7 @@
 # Gaming BI System
+A comprehensive BI system designed to process and analyze gaming data using Google BigQuery. This system extracts, transforms, and loads (ETL) gaming event data into structured data warehouses for business analytics and reporting.
 
-A comprehensive Business Intelligence (BI) system designed to process and analyze gaming data using Google BigQuery. This system extracts, transforms, and loads (ETL) gaming event data into structured data warehouses for business analytics and reporting.
-
-## 🎮 What This System Does (For Non-Technical Users)
+## 🎮 What This System Does 
 
 Imagine you're running a mobile game company and you want to understand how players behave, how much money they spend, and how engaged they are with your game. This system does exactly that by:
 
@@ -12,7 +11,7 @@ Imagine you're running a mobile game company and you want to understand how play
 4. **Daily Updates**: Every day, it automatically updates these profiles with the latest player activity
 5. **Monitoring**: It keeps track of whether everything is working properly and alerts you if something goes wrong
 
-Think of it as a sophisticated filing system that takes all the chaos of game data and turns it into organized, useful business insights.
+
 
 ## 🏗️ System Architecture
 
@@ -210,14 +209,3 @@ Individual pipelines can be executed manually using the provided shell scripts i
 - Check logs in `temp/pipelines/logs/` directory
 - Review error messages in `temp/pipelines/errors/` directory
 
-## 📝 License
-
-This project is part of a gaming analytics tutorial system.
-
-## 🤝 Contributing
-
-This is a tutorial project. For questions or issues, please refer to the course materials or contact the instructor.
-
----
-
-**Note**: This system is designed for educational purposes and demonstrates real-world BI/ETL patterns using Google BigQuery and Python.
