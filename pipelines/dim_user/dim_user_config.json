@@ -1,0 +1,31 @@
+{
+  "ppltx_dim_user_etl": {
+    "tasks": {
+      "init_dim_user": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "dim_user",
+        "description": "Initialize curated dimension for first-seen users",
+        "partition_att": "install_dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "dim_user",
+        "description": "Delete install cohort for the processing date before insert",
+        "partition_att": "install_dt",
+        "isEnable": true
+      },
+      "load_dim_user": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "dim_user",
+        "description": "Load new users discovered on run date",
+        "partition_att": "install_dt",
+        "isEnable": true
+      }
+    }
+  }
+}

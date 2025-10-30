@@ -1,0 +1,46 @@
+{
+  "tables": {
+    "fp_gaming_panels.daily_user_panel": {
+      "description": "Daily user KPI panel",
+      "dataset": "fp_gaming_panels",
+      "table": "daily_user_panel",
+      "thresh_in_hours": 24,
+      "enabled": true
+    },
+    "fp_gaming_panels.user_panel": {
+      "description": "User lifetime panel",
+      "dataset": "fp_gaming_panels",
+      "table": "user_panel",
+      "thresh_in_hours": 24,
+      "enabled": true
+    },
+    "fp_gaming_raw_data.fact": {
+      "description": "Raw event fact table",
+      "dataset": "fp_gaming_raw_data",
+      "table": "fact",
+      "thresh_in_hours": 24,
+      "enabled": true
+    },
+    "fp_gaming_curated.dim_user": {
+      "description": "Curated users dimension",
+      "dataset": "fp_gaming_curated",
+      "table": "dim_user",
+      "thresh_in_hours": 24,
+      "enabled": true
+    },
+    "fp_gaming_curated.fct_sessions": {
+      "description": "Curated session-level fact",
+      "dataset": "fp_gaming_curated",
+      "table": "fct_sessions",
+      "thresh_in_hours": 24,
+      "enabled": true
+    },
+    "fp_gaming_curated.fct_purchases": {
+      "description": "Curated purchase-level fact",
+      "dataset": "fp_gaming_curated",
+      "table": "fct_purchases",
+      "thresh_in_hours": 24,
+      "enabled": true
+    }
+  }
+}

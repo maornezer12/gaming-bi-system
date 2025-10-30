@@ -16,6 +16,7 @@ temp/
 *.key
 *.pem
 *.p12
+.env
 
 # BigQuery temp
 *.log

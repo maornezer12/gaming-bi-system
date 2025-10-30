@@ -1,211 +1,103 @@
-# Gaming BI System
-A comprehensive BI system designed to process and analyze gaming data using Google BigQuery. This system extracts, transforms, and loads (ETL) gaming event data into structured data warehouses for business analytics and reporting.
+# Gaming BI System 🎮
 
-## 🎮 What This System Does 
+> **A comprehensive Business Intelligence system for gaming data analysis using Google BigQuery**
+
+## What This System Does
 
 Imagine you're running a mobile game company and you want to understand how players behave, how much money they spend, and how engaged they are with your game. This system does exactly that by:
 
-1. **Collecting Game Data**: Every time a player does something in your game (starts a session, plays a match, makes a purchase), this data gets collected
-2. **Organizing the Data**: The system takes all this raw data and organizes it into meaningful tables that business analysts can easily understand
-3. **Creating User Profiles**: It builds comprehensive profiles for each player showing their lifetime activity, spending, and engagement
-4. **Daily Updates**: Every day, it automatically updates these profiles with the latest player activity
-5. **Monitoring**: It keeps track of whether everything is working properly and alerts you if something goes wrong
+1. **📊 Pulling Game Data**: The system connects to existing gaming data sources and pulls raw event data (sessions, matches, purchases) into your project
+2. **🔄 Organizing the Data**: Takes all this raw data and organizes it into meaningful tables that business analysts can easily understand
+3. **👤 Creating User Profiles**: Builds comprehensive profiles for each player showing their lifetime activity, spending, and engagement
+4. **📅 Daily Updates**: Every day, it automatically updates these profiles with the latest player activity
+5. **🔍 Monitoring**: Keeps track of whether everything is working properly and alerts you if something goes wrong
 
-
-
-## 🏗️ System Architecture
-
-### Core Components
-
-- **ETL Runner** (`etl_runner.py`): The main orchestrator that executes data processing jobs
-- **Pipeline Configurations**: JSON files that define how each data processing job should run
-- **SQL Templates**: Reusable SQL queries for data transformation
-- **Monitoring System**: Tracks job execution and alerts on failures
-- **Scheduler**: Automated execution of daily data processing jobs
+## 🏗️ System Overview
 
 ### Data Flow
-
 ```
-Raw Game Data (BigQuery) 
+Raw Game Data (External Source) 
     ↓
 FACT Table (Raw Events)
     ↓
 Daily User Panel (Daily Aggregations)
     ↓
 User Panel (Lifetime User Profiles)
+    ↓
+Curated Marts (dim_user, fct_sessions, fct_purchases)
 ```
 
-## 📊 Data Processing Pipelines
+### Key Features
+- **🔄 Automated ETL Pipelines**: Processes gaming data daily with minimal intervention
+- **📊 Multi-layered Analytics**: From raw events to user profiles
+- **🔍 Smart Monitoring**: Tracks job execution and alerts on failures
+- **📈 KPI Monitoring**: Monitors key performance indicators (DAU, Installs, Last Activity) with automated alerts
+- **🗃️ Table Monitoring**: Ensures BigQuery tables are fresh and updated within defined thresholds
+- **🗂️ Curated Layer (Marts)**: Clean facts and dimensions (`dim_user`, `fct_sessions`, `fct_purchases`) powering KPIs
+- **🛠️ Modular Design**: Easy to extend and customize
+- **📈 Business Intelligence**: Ready-to-use data for analytics and reporting
 
-### 1. FACT Pipeline
-- **Purpose**: Stores raw gaming events (sessions, matches, purchases)
-- **Source**: `project_game.playpltx_fact`
-- **Destination**: `fp_gaming_raw_data.fact`
-- **Frequency**: Daily incremental loads
-
-### 2. Daily User Panel Pipeline
-- **Purpose**: Creates daily aggregated metrics per user
-- **Source**: `fp_gaming_raw_data.fact`
-- **Destination**: `fp_gaming_panels.daily_user_panel`
-- **Metrics**: Sessions, matches, revenue, coins gained per day
-
-### 3. User Panel Pipeline
-- **Purpose**: Maintains lifetime user profiles with cumulative metrics
-- **Source**: `fp_gaming_panels.daily_user_panel`
-- **Destination**: `fp_gaming_panels.user_panel`
-- **Features**: User lifetime stats, install dates, total activity
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8+
-- Google Cloud SDK installed and authenticated
-- Access to BigQuery project: `ppltx-m--tutorial-dev` or `my-bi-project-ppltx`
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone <repository-url>
-cd gaming-bi-system
-```
-
-2. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
-
-3. Set up Google Cloud authentication:
-```bash
-gcloud auth application-default login
-```
-
-### Running ETL Jobs
-
-#### Initialize Tables (One-time setup)
-```bash
-# Initialize FACT table
-python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action init
-
-# Initialize Daily User Panel
-python etl_runner.py ppltx-m--tutorial-dev --job-name daily_user_panel --job-action init
-
-# Initialize User Panel
-python etl_runner.py ppltx-m--tutorial-dev --job-name user_panel --job-action init
-```
-
-#### Daily Data Processing
-```bash
-# Process daily data for all pipelines
-python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action daily
-python etl_runner.py ppltx-m--tutorial-dev --job-name daily_user_panel --job-action daily
-python etl_runner.py ppltx-m--tutorial-dev --job-name user_panel --job-action daily
-```
-
-#### Dry Run (Test without executing)
-```bash
-python etl_runner.py ppltx-m--tutorial-dev --job-name fact --job-action daily --dry-run
-```
-
-## 📁 Project Structure
+## 📁High Level Project Structure
 
 ```
 gaming-bi-system/
-├── etl_runner.py                 # Main ETL orchestrator
-├── requirements.txt              # Python dependencies
-├── pipelines/                    # ETL pipeline configurations
-│   ├── action_config.json       # Task execution order
-│   ├── clear_table.sql          # Generic table clearing query
-│   ├── fact/                    # FACT pipeline
-│   │   ├── fact_config.json
-│   │   ├── init_fact.sql
-│   │   └── load_fact.sql
-│   ├── daily_user_panel/        # Daily user panel pipeline
-│   │   ├── daily_user_panel_config.json
-│   │   ├── init_daily_user_panel.sql
-│   │   └── load_daily_user_panel.sql
-│   └── user_panel/              # User panel pipeline
-│       ├── user_panel_config.json
-│       ├── init_user_panel.sql
-│       └── load_user_panel.sql
-├── monitoring/                   # System monitoring
-│   └── log_monitoring/
-│       ├── logs_config.json
-│       ├── logs_monitoring.py
-│       └── logs_query.sql
+├── pipelines/                    # ETL pipeline configurations and runner
+├── monitoring/                   # System monitoring and alerting
+├── utilities/                    # Centralized helper functions
 ├── scheduler/                    # Automated job scheduling
-│   ├── crontab.sh
-│   ├── execute_fact_etl.sh
-│   ├── execute_full_bi_etl.sh
-│   ├── execute_panel_etl.sh
-│   └── execute_user_panel_etl.sh
-└── utilities/                    # Helper functions
-    ├── __init__.py
-    ├── my_etl_files.py
-    └── df_to_string_table.py
 ```
 
-## 🔧 Configuration
+## Quick Start
 
-### Pipeline Configuration
+### For New Users
+👉 **[Complete Setup Guide](SETUP.md)** - Step-by-step installation and configuration
 
-Each pipeline is configured via JSON files in the `pipelines/` directory:
+### For Developers
+👉 **[System Documentation](SYSTEM.md)** - Technical details, architecture, and development guide
 
-- **`*_config.json`**: Defines table sources, destinations, and parameters
-- **`action_config.json`**: Defines the execution order for different job actions (init, daily, delete)
-
-### Monitoring Configuration
-
-The monitoring system tracks job execution in `logs.daily_logs` table and can alert when jobs haven't run within expected timeframes.
-
-## ⚠️ Known Issues
-
-### Monitoring System
-- **Bug**: The log monitoring system (`monitoring/log_monitoring/logs_monitoring.py`) has several issues:
-  - Incorrect variable references (`etl_configuration` vs `log_config`)
-  - Path resolution problems
-  - Incomplete error handling
-  - **Status**: Not properly registered in the main ETL runner
-
-### Scheduler Files
-- **Outdated**: Several scheduler files in `scheduler/` directory contain outdated paths and configurations
-- **Status**: Will be updated in future releases
-
-## 📈 Monitoring and Logging
-
-The system maintains detailed logs of all ETL operations in BigQuery:
-
-- **Table**: `{project_id}.logs.daily_logs`
-- **Tracks**: Job execution times, success/failure status, step-by-step progress
-- **Retention**: Configurable based on business needs
-
-## 🔄 Automation
-
-### Cron Jobs
-The system supports automated daily execution via cron:
-
+### Run (Recommended): Orchestrator Scripts
 ```bash
-# Daily at 10:00 AM - Full BI pipeline
-0 10 * * * bash ~/workspace/ppltx-tutorial/jobs/gaming_bi_system/execute_full_bi_etl.sh
+# Full pipeline (core + curated + monitoring)
+./scheduler/execute_all.sh
+
+# Core ETL only (fact → daily_user_panel → user_panel)
+./scheduler/execute_core_etl.sh
+
+# Curated ETL only (dim_user → fct_sessions → fct_purchases)
+./scheduler/execute_curated_etl.sh
+
+# Monitoring only (logs, KPIs, tables)
+./scheduler/execute_monitoring.sh
 ```
 
-### Manual Execution
-Individual pipelines can be executed manually using the provided shell scripts in the `scheduler/` directory.
+Tip: if needed, make scripts executable once: `chmod +x scheduler/*.sh`.
 
-## 🛠️ Development
+### Run (Advanced): Direct Python
+```bash
+# core layer
+python pipelines/etl_runner.py <PROJECT_ID> --job_name <fact|daily_user_panel|user_panel> --job_action <init|daily> [--dry-run]
 
-### Adding New Pipelines
+# curated layer
+python pipelines/etl_runner.py <PROJECT_ID> --job_name <dim_user|fct_sessions|fct_purchases> --job_action <init|daily> [--dry-run]
 
-1. Create a new directory under `pipelines/`
-2. Add configuration JSON file
-3. Create SQL template files (init, load, clear)
-4. Update `action_config.json` if needed
-5. Test with dry-run mode
+# monitoring
+python monitoring/logs_monitoring/logs_monitoring.py <PROJECT_ID> --job_name log --job_action daily [--dry-run]
+python monitoring/kpis_monitoring/kpis_monitoring.py <PROJECT_ID> --job_name kpis --job_action daily [--dry-run]
+python monitoring/table_monitoring/table_monitoring.py <PROJECT_ID> --job_name tables --job_action daily [--dry-run]
+```
 
-### Debugging
+### Environment Variables
+Create `.env` in the project root or export variables:
+```
+SLACK_WEBHOOK_URL=YOUR/SLACK/WEBHOOK
+SLACK_SEND_SUCCESS=false
+SLACK_SUMMARY_ONLY=false
+BI_VERBOSE=false
+```
 
-- Use `--dry-run` flag to test queries without execution
-- Check logs in `temp/pipelines/logs/` directory
-- Review error messages in `temp/pipelines/errors/` directory
 
+---
+
+**Ready to get started?** 🚀
+
+👉 **[Begin Setup](SETUP.md)** | 👉 **[Read System Docs](SYSTEM.md)**

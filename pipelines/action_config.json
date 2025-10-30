@@ -1,5 +1,5 @@
 {
-  "init": ["init_{etl_name}"],
-  "daily": ["clear_table", "load_{etl_name}"],
+  "init": ["init_{job_name}"],
+  "daily": ["clear_table", "load_{job_name}"],
   "delete": ["clear_table"]
 }

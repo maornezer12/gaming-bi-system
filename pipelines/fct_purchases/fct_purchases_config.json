@@ -1,0 +1,31 @@
+{
+  "ppltx_fct_purchases_etl": {
+    "tasks": {
+      "init_fct_purchases": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_purchases",
+        "description": "Initialize curated purchases fact (one row per purchase)",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_purchases",
+        "description": "Delete partition for run date before load",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "load_fct_purchases": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_purchases",
+        "description": "Load incremental purchases (run date)",
+        "partition_att": "dt",
+        "isEnable": true
+      }
+    }
+  }
+}

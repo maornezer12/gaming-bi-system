@@ -1,0 +1,48 @@
+{
+  "tables": {
+    "ppltx_daily_kpis": {
+      "kpis": {
+        "dau": {
+          "dataset": "fp_gaming_curated",
+          "table_id": "fct_sessions",
+          "thresh_in_percent": 0.1,
+          "d1": "previous_dau",
+          "description": "Check that the DAU hadn't change dramatically",
+          "isEnable": true
+        },
+        "installs": {
+          "dataset": "fp_gaming_curated",
+          "table_id": "dim_user",
+          "thresh_in_percent": 0.1,
+          "d1": "previous_installs",
+          "description": "Check that the Daily installs hadn't change dramatically",
+          "isEnable": true
+        },
+        "last_activity": {
+          "dataset": "fp_gaming_curated",
+          "table_id": "fct_sessions",
+          "thresh_in_percent": 0.1,
+          "d1": "previous_last_activity",
+          "description": "Check that the Daily last_activity hadn't change dramatically",
+          "isEnable": true
+        },
+        "arpdau": {
+          "dataset": "fp_gaming_curated",
+          "table_id": "fct_sessions",
+          "thresh_in_percent": 0.15,
+          "d1": "previous_arpdau",
+          "description": "Check that ARPDAU hadn't change dramatically",
+          "isEnable": true
+        },
+        "retention_d1": {
+          "dataset": "fp_gaming_curated",
+          "table_id": "fct_sessions",
+          "thresh_in_percent": 0.1,
+          "d1": "previous_retention_d1",
+          "description": "Check that D1 retention hadn't change dramatically",
+          "isEnable": true
+        }
+      }
+    }
+  }
+}

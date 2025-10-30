@@ -1,0 +1,40 @@
+{
+  "tables": {
+    "fact_daily": {
+      "description": "Check that FACT daily ran within the last 12 hours",
+      "job_name": "fact",
+      "step_name": "end",
+      "thresh_in_hours": 24
+    },
+    "panel_daily": {
+      "description": "Check that DAILY_USER_PANEL daily ran within the last 12 hours",
+      "job_name": "daily_user_panel",
+      "step_name": "end",
+      "thresh_in_hours": 3
+    },
+    "user_panel_daily": {
+      "description": "Check that USER_PANEL daily ran within the last 12 hours",
+      "job_name": "user_panel",
+      "step_name": "end",
+      "thresh_in_hours": 3
+    },
+    "dim_user_daily": {
+      "description": "Check that DIM_USER daily ran within the last 24 hours",
+      "job_name": "dim_user",
+      "step_name": "end",
+      "thresh_in_hours": 24
+    },
+    "fct_sessions_daily": {
+      "description": "Check that FCT_SESSIONS daily ran within the last 24 hours",
+      "job_name": "fct_sessions",
+      "step_name": "end",
+      "thresh_in_hours": 24
+    },
+    "fct_purchases_daily": {
+      "description": "Check that FCT_PURCHASES daily ran within the last 24 hours",
+      "job_name": "fct_purchases",
+      "step_name": "end",
+      "thresh_in_hours": 24
+    }
+  }
+}

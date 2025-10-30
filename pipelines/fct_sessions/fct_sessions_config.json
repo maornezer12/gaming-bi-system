@@ -1,0 +1,31 @@
+{
+  "ppltx_fct_sessions_etl": {
+    "tasks": {
+      "init_fct_sessions": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_sessions",
+        "description": "Initialize curated session fact (one row per session)",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "clear_table": {
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_sessions",
+        "description": "Delete partition for run date before load",
+        "partition_att": "dt",
+        "isEnable": true
+      },
+      "load_fct_sessions": {
+        "dataset_src": "fp_gaming_raw_data",
+        "table_src": "fact",
+        "dataset_dst": "fp_gaming_curated",
+        "table_dst": "fct_sessions",
+        "description": "Load incremental sessions (run date)",
+        "partition_att": "dt",
+        "isEnable": true
+      }
+    }
+  }
+}
