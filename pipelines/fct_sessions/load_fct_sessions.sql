@@ -7,10 +7,10 @@ run_time
 MERGE `{project}.{dataset_dst}.{table_dst}` T
 USING (
   SELECT
-    DATE(MIN(COALESCE(event_start_time, time))) AS dt,
+    DATE(MIN(time)) AS dt,
     ANY_VALUE(user_id) AS user_id,
     session_id,
-    MIN(COALESCE(event_start_time, time)) AS session_start_ts,
+    MIN(time) AS session_start_ts,
     COALESCE(
       ANY_VALUE(session_length_seconds),
       CAST(ANY_VALUE(session_time) AS INT64)
