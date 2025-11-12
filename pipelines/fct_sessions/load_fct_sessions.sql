@@ -18,7 +18,7 @@ USING (
     ANY_VALUE(device_type) AS device_type,
     COALESCE(ANY_VALUE(country), ANY_VALUE(store_country)) AS country
   FROM `{project}.{dataset_src}.{table_src}`
-  WHERE DATE(COALESCE(event_start_time, time)) = DATE("{date}")
+  WHERE DATE(time) = DATE("{date}")
     AND user_id IS NOT NULL
     AND session_id IS NOT NULL
   GROUP BY session_id
