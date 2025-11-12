@@ -2,7 +2,7 @@
 set -euo pipefail
 PROJECT_ID=${1:-ppltx-m--tutorial-dev}
 ROOT_DIR=$(cd "$(dirname "$0")/.." && pwd)
-PY=python
+PY=python3
 
 $PY "$ROOT_DIR/monitoring/logs_monitoring/logs_monitoring.py"  "$PROJECT_ID" --job_name log   --job_action daily
 sleep 300
