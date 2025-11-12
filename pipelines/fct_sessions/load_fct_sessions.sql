@@ -23,7 +23,7 @@ USING (
     AND session_id IS NOT NULL
   GROUP BY session_id
 ) S
-ON T.session_id = S.session_id
+ON T.session_id = S.session_id AND T.dt = S.dt
 WHEN NOT MATCHED THEN
   INSERT (dt, user_id, session_id, session_start_ts, session_length_seconds, device_type, country)
   VALUES (S.dt, S.user_id, S.session_id, S.session_start_ts, S.session_length_seconds, S.device_type, S.country);
