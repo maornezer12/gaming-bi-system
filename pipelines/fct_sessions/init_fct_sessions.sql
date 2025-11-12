@@ -3,7 +3,7 @@ Initialize FCT SESSIONS
 run_time
 {run_time}
 Session start detection:
-- Prefer event_start_time column if present; otherwise use MIN(time) per session_id
+- Using MIN(time) per session_id for session start timestamp.
 */
 
 CREATE OR REPLACE TABLE `{project}.{dataset_dst}.{table_dst}`
@@ -11,10 +11,10 @@ PARTITION BY dt
 CLUSTER BY user_id
 OPTIONS (description = "Curated session-level fact") AS
 SELECT
-  DATE(MIN(COALESCE(event_start_time, time))) AS dt,
+  DATE(MIN(time)) AS dt,
   ANY_VALUE(user_id) AS user_id,
   session_id,
-  MIN(COALESCE(event_start_time, time)) AS session_start_ts,
+  MIN(time) AS session_start_ts,
   COALESCE(
     ANY_VALUE(session_length_seconds),
     CAST(ANY_VALUE(session_time) AS INT64)
